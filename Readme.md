@@ -19,6 +19,8 @@ Clone the forked git repository by clicking the "Code" dropdown button and follo
 
 ### CircleCI
 * Sign in to [CircleCI](https://circleci.com/signup/).
-
-
+* Open the Projects tab
+* You will see your forked github repository
+* Click "setup project"
+* You will see CircleCI trying to help us with a basic template. We'll use our own ;)
 
