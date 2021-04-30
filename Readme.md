@@ -24,7 +24,7 @@ You can decide on your own if you want to follow all steps.
 └── README.md
 ```
 
-## Prerequisites for folliwing CI/CD workshop
+## Prerequisites for following CI/CD workshop
 * [Github account](https://github.com/join)
 * [CircleCI](https://circleci.com/signup/) access (via Github Single Sign on)
 * (optional) [Heroku](https://signup.heroku.com/login) a free Heroku developer account.
