@@ -5,8 +5,4 @@ describe('generateRandomNumber', () => {
       const randomNumber = generateRandomNumber();
       expect(randomNumber).toBeGreaterThan(0);
    });
-
-   test('pipeline should fail!', () => {
-      expect(false).toBeTrue();
-   });
 });
