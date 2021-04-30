@@ -1,17 +1,27 @@
 version: 2.1
 
+# Orbs are shareable packages of CircleCI configuration you can use to simplify your builds.
 orbs:
+  # The Heroku orb is used to simplify the deployment to Heroku
   heroku: circleci/heroku@1.2.6
+
+# A CircleCI pipeline is composed via the following concepts:
+# A workflow
+#   has multiple jobs
+#     and jobs are composed of one or more few steps.
 
 jobs:
     prepare-dependencies:
+        # Steps in the prepare-dependencies job make use of the node alpine docker image.
         docker:
             - image: node:current-alpine
         steps:
+            # Checkout the git repository
             - checkout
             - run:
                   name: Compute version number
                   command: echo "0.0.${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1:0:7}" | tee version.txt
+            # To speed up the builds, a cache can be used.
             - restore_cache:
                   keys:
                       - yarn-deps-{{ checksum "yarn.lock" }}
@@ -19,6 +29,7 @@ jobs:
             - run:
                   name: yarn install
                   command: yarn install
+            # Save the node_modules folder with all dependencies to the cache
             - save_cache:
                   paths:
                       - node_modules
@@ -29,7 +40,7 @@ jobs:
                   root: .
                   paths:
                       - .
-
+    # This job builds the application.
     build:
         docker:
             - image: node:current-alpine
@@ -38,6 +49,7 @@ jobs:
                   at: .
             - run:
                   name: build
+                  # The yarn build command is configured in the package.json under scripts
                   command: |
                       yarn build
             - store_artifacts:
@@ -46,7 +58,8 @@ jobs:
                   root: .
                   paths:
                       - .
-
+    # Our pipeline is responsible for testing our software.
+    # If one or more tests fail, the deployment shouldn't get executed.
     test:
         docker:
             - image: node:current-alpine
@@ -56,6 +69,7 @@ jobs:
                   at: .
             - run:
                   name: Run tests
+                  # The test command is configured in the package.json.
                   command: |
                       yarn test
     deploy:
@@ -63,8 +77,13 @@ jobs:
       steps:
         - attach_workspace:
               at: .
+        # Use the Heroku orb and deploy via heroku's git repository. 
+        # This step needs the HEROKU_API_KEY and HEROKU_APP_NAME variables to be set.
+        # See Readme.md for details.
         - heroku/deploy-via-git
 
+# The workflow configures how the different jobs relate to each other.
+# Some jobs might depend on each other. For example, you only want to deploy when the tests succeeded.
 workflows:
     version: 2
     build-test-deploy:
@@ -76,9 +95,8 @@ workflows:
             - test:
                   requires:
                       - prepare-dependencies
-            # Hmm, not the cleanest way, we build in CircleCI but heroku will build again.
-            #  Don't do this in production
             - deploy:
+                # Only deploy when both the build and test job succeeded.
                 requires:
                   - test
                   - build

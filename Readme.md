@@ -6,6 +6,24 @@ This will be deployed to Heroku with CircleCI.
 
 You can decide on your own if you want to follow all steps.
 
+## Repository content
+```
+.
+├── __tests__               # Unit test files
+├── .circleci               # Directory with CircleCI configuration
+├── build                   # Compiled files (generated code)
+├── images                  # Images for documentation
+├── node_modules            # Directory with dependencies (auto generated)
+├── index.js                # Main entry point of the application
+├── package.json            # The package.json contains all dependencies of this project and defines scripts to build and test the project
+├── Procfile                # The Procfile is used by Heroku to determine the startup command for this application
+├── randomNumber.js         # Dummy code to generate a random number
+├── rollup.config.js        # Build configuration file
+├── yarn.lock               # Lock file for nodejs dependencies
+├── LICENSE
+└── README.md
+```
+
 ## Prerequisites
 * [Github account](https://github.com/join)
 * [CircleCI](https://circleci.com/signup/) access (via Github Single Sign on)
