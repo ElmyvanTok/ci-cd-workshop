@@ -1,8 +1,8 @@
 # Simple CI/CD demo with CircleCI and Heroku
 
 This repository contains the code for a little workshop to create a CI/CD pipeline.
-The application used for this workshop is a simple Hello World app, written in Nodejs, that exposes a Http endpoint. 
-This will be deployed to Heroku with CircleCI.
+The application used for this workshop is a simple Hello World app, written in Nodejs, that exposes an http endpoint. 
+This can be deployed to Heroku with CircleCI.
 
 You can decide on your own if you want to follow all steps.
 
@@ -24,7 +24,7 @@ You can decide on your own if you want to follow all steps.
 └── README.md
 ```
 
-## Prerequisites
+## Prerequisites for folliwing CI/CD workshop
 * [Github account](https://github.com/join)
 * [CircleCI](https://circleci.com/signup/) access (via Github Single Sign on)
 * (optional) [Heroku](https://signup.heroku.com/login) a free Heroku developer account.
@@ -72,3 +72,18 @@ You have configured the Heroku application. You can click on a failed deploy ste
 Now go back to Heroku and open your app.
 You'll see that Heroku received a deploy from CircleCI.
 * Click the open app button
+
+
+## Building and testing
+**To follow the CI/CD workshop you don't need to build and test on your local machine!**
+
+In case you want to build and test locally:
+* Install [nodejs 14+](https://nodejs.org/en/)
+* Install [yarn](https://yarnpkg.com/)
+* Run 
+
+`yarn install`
+
+`yarn build`
+
+`yarn test`
