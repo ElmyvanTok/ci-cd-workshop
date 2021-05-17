@@ -45,11 +45,81 @@ Clone the forked git repository by clicking the "Code" dropdown button and follo
 * Click "setup project"
 * You will see CircleCI trying to help us with a basic template. We'll use our own ;)
   ![basic-template](images/circleci-proposes-config.png)
-TODO -as- add config.yml hints...
 * Click Use existing config once you commited the .circleci/config.yml file
-* You'll that see circleci created a pipeline
+* The pipeline must be configured in the repository you just cloned:
+  * Create a .circleci/config.yml file
+    ![circleci config](images/circleci-configyml.png)
+  * The first thing we need in the config.yml is the version of the circleci config.yml we want to use and the [orbs](https://circleci.com/orbs/):
+```yaml
+version: 2.1
+
+# Orbs are shareable packages of CircleCI configuration you can use to simplify your builds.
+orbs:
+  # The Heroku orb is used to simplify the deployment to Heroku
+  heroku: circleci/heroku@1.2.6
+```
+  * After that we need to define a [workflow](https://circleci.com/docs/2.0/workflows/):
+    
+    In that workflow we define the jobs (different steps in a pipeline) and the relation between those jobs. Some jobs might depend on each other, we only want to deploy when tests have succeeded for example. 
+```yaml
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+```
+  * After defining the workflow we have to define the jobs themselves. The build job looks like this:
+```yaml
+jobs:
+    # This job builds the application.
+    build:
+      docker:
+        - image: node:current-alpine
+      steps:
+        - attach_workspace:
+            at: .
+        - run:
+            name: build
+            # The yarn build command is configured in the package.json under scripts
+            command: |
+              yarn build
+        - store_artifacts:
+            path: build/index.js
+        - persist_to_workspace:
+            root: .
+            paths:
+              - .
+```
+  * We defined one more job in our workflow, the test job:
+```yaml
+jobs:
+    #... build job from previous step...
+  
+    # Our pipeline is responsible for testing our software.
+    # If one or more tests fail, the deployment shouldn't get executed.
+    test:
+      docker:
+        - image: node:current-alpine
+      parallelism: 1
+      steps:
+        - attach_workspace:
+            at: .
+        - run:
+            name: Run tests
+            # The test command is configured in the package.json.
+            command: |
+              yarn test
+```
+* Switch back to the CircleCI page in your browser. You'll that see circleci created a pipeline
   ![pipeline](images/circleci-project-overview.png)
 * It will start the workflow with all jobs every time you commit!
+* See that one test failed! Fix it by changing the `__tests__/randomNumber.test.js`
+* Commit again and wait until the pipeline ran the latest commit.
+
+**You defined a simple pipeline definition which makes sure you can build your software and that all tests succeeded!**
 
 ### Heroku
 Sign up to [Heroku](https://signup.heroku.com/login). Create your account.
