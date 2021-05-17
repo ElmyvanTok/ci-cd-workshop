@@ -79,8 +79,8 @@ jobs:
       docker:
         - image: node:current-alpine
       steps:
-        - attach_workspace:
-            at: .
+        # Checkout the git repository
+        - checkout
         - run:
             name: build
             # The yarn build command is configured in the package.json under scripts
@@ -105,6 +105,7 @@ jobs:
         - image: node:current-alpine
       parallelism: 1
       steps:
+        - checkout
         - attach_workspace:
             at: .
         - run:
