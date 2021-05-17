@@ -85,6 +85,7 @@ jobs:
             name: build
             # The yarn build command is configured in the package.json under scripts
             command: |
+              yarn
               yarn build
         - store_artifacts:
             path: build/index.js
@@ -112,6 +113,7 @@ jobs:
             name: Run tests
             # The test command is configured in the package.json.
             command: |
+              yarn
               yarn test
 ```
 * Switch back to the CircleCI page in your browser. You'll that see circleci created a pipeline
