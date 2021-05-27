@@ -176,8 +176,8 @@ which makes it easier for this demo.
 Now go back to Heroku and open your app.
 You'll see that Heroku received a deployment from CircleCI.
 * Click the open app button
-* You'll see your app saying "Hello world"
-* From here, try to change the application to print "Deployed via pipeline!"
+* You'll see your app printing "Hello world"
+* From here, try to change the application to print "Deployed via pipeline!" (hint see `./index.js`)
 * Commit your changes and without doing a thing your application will be updated.
 
 ### Cleanup
