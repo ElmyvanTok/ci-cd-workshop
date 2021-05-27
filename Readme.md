@@ -116,6 +116,7 @@ jobs:
               yarn
               yarn test
 ```
+* Commit the changes to .circleci/config.yml to github.
 * Switch back to the CircleCI page in your browser. You'll that see circleci created a pipeline
   ![pipeline](images/circleci-project-overview.png)
 * It will start the workflow with all jobs every time you commit!
@@ -126,7 +127,7 @@ jobs:
 
 ### Heroku
 In the next step we take our app that is build by the pipeline and deploy it somewhere so we can release functionality 
-to our users by only commiting to a git repository.
+to our users by only committing to a git repository.
 
 Sign up to [Heroku](https://signup.heroku.com/login). Create your account.
 ![heroku welcome](images/heroku-welcome-screen.png)
