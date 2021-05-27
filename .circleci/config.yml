@@ -13,6 +13,9 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
 
 jobs:
   # This job builds the application.
@@ -48,3 +51,13 @@ jobs:
           command: |
             yarn
             yarn test
+
+  deploy:
+    executor: heroku/default
+    steps:
+      - attach_workspace:
+          at: .
+      # Use the Heroku orb and deploy via heroku's git repository.
+      # This step needs the HEROKU_API_KEY and HEROKU_APP_NAME variables to be set.
+      # See Readme.md for details.
+      - heroku/deploy-via-git
