@@ -125,6 +125,9 @@ jobs:
 **You defined a simple pipeline definition which makes sure you can build your software and that all tests succeeded!**
 
 ### Heroku
+In the next step we take our app that is build by the pipeline and deploy it somewhere so we can release functionality 
+to our users by only commiting to a git repository.
+
 Sign up to [Heroku](https://signup.heroku.com/login). Create your account.
 ![heroku welcome](images/heroku-welcome-screen.png)
 
@@ -133,6 +136,8 @@ Once you signed up, click create app
   ![heroku new app](images/heroku-create-app.png)
 * Create app (without pipeline since we use circleci)
 * Nice, you have your app configured in Heroku.
+
+Till this point we haven't released the actual application code. That's what our pipeline can do for us.
 
 Now get your api key from Heroku:
 * Go to your account tab
@@ -149,10 +154,26 @@ Go to the Project Settings in CircleCI and click the tab Environment Variables
 * Next, configure the HEROKU_API_KEY which you obtained before.
   ![Configure the env var api key](images/circleci-configure-apikey.png)
 
-You have configured the Heroku application. You can click on a failed deploy step in CircleCI and hit the Rerun button to start the deployment again.
+## Update the config.yml
+* Update the config.yml, as you might now already, we have to update the workflow with the jobs and the relationships between the jobs.
+* After the workspace is done, we have to configure the job:
+```yaml
+    deploy:
+      executor: heroku/default
+      steps:
+        - attach_workspace:
+              at: .
+        # Use the Heroku orb and deploy via heroku's git repository.
+        # This step needs the HEROKU_API_KEY and HEROKU_APP_NAME variables to be set.
+        # See Readme.md for details.
+        - heroku/deploy-via-git
+```
+* Note that the job uses an orb, a predefined macro that is able to deploy to Heroku. We don't have to know all the details
+which makes it easier for this demo.
+* Commit the `config.yml` and the pipeline in CircleCI should deploy the app to Heroku.
 
 Now go back to Heroku and open your app.
-You'll see that Heroku received a deploy from CircleCI.
+You'll see that Heroku received a deployment from CircleCI.
 * Click the open app button
 
 ## Building and testing
