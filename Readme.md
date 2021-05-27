@@ -176,6 +176,12 @@ which makes it easier for this demo.
 Now go back to Heroku and open your app.
 You'll see that Heroku received a deployment from CircleCI.
 * Click the open app button
+* You'll see your app saying "Hello world"
+* From here, try to change the application to print "Deployed via pipeline!"
+* Commit your changes and without doing a thing your application will be updated.
+
+### Cleanup
+Remove your application from Heroku and delete the CircleCI pipeline when you're done. 
 
 ## Building and testing
 **To follow the CI/CD workshop you don't need to build and test on your local machine!**
