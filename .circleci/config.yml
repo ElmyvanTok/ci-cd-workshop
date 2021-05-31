@@ -34,3 +34,22 @@ jobs:
           root: .
           paths:
             - .
+
+  #... build job from previous step...
+
+  # Our pipeline is responsible for testing our software.
+  # If one or more tests fail, the deployment shouldn't get executed.
+  test:
+    docker:
+      - image: node:current-alpine
+    parallelism: 1
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run tests
+          # The test command is configured in the package.json.
+          command: |
+            yarn
+            yarn test
