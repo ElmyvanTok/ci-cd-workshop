@@ -13,6 +13,9 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
 
 jobs:
   # This job builds the application.
